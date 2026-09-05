@@ -143,8 +143,8 @@ that ships real products affecting people's home networks every day.
 ## ⚡ SHORT version — 90 giây (nếu interviewer cắt ngang)
 
 ```
-I'm a mobile engineer with over seven years of experience,
-specialising in Swift iOS and cross-platform mobile development with React Native and Flutter.
+I'm a software engineer with over seven years of experience,
+specialising with Nodejs in BE development, ReactJS in FE developement, Swift iOS and cross-platform mobile development with React Native and Flutter.
 
 My background is in Information Security, which gave me a solid
 foundation in programming and security thinking. I've worked primarily
@@ -164,6 +164,10 @@ and firmware features.
 ```
 
 ---
+# tell me about project you proud of.
+
+I’d like to talk about a project where I recreated the eKYC flow. At Finhay, the legacy eKYC flow was implemented natively on iOS with SwiftUI and on Android with Kotlin, while most of the new products were built with Flutter. We had been receiving complaints that features were shipped slowly because we had to maintain two codebases for the same eKYC journey. This had a big impact on delivery speed and also caused inconsistent behavior between platforms. My responsibility was to migrate the eKYC UI to Flutter while preserving the native NFC reading SDK and face liveness SDK, which were vendor SDKs that only existed as native libraries. The flow had to stay safe. For example, there should be no unsafe back navigation after sensitive steps. We also needed a full fallback path to the legacy native flow in case anything broke in production. One challenge was designing the method channel contracts for invocations like opening the NFC scanner and starting the liveness check. I also had to design event channels to stream results back, such as NFC read started, liveness passed or failed, completion events, and cancel events. I wrapped both SDKs behind a native eKYC bridge interface in the domain layer, so my state management Cubit depended on the abstraction. This allowed us to unit test the flow with Mocktail. I structured the feature using clean architecture, with presentation, domain, and data layers. We also deployed it in phases through a remote config flag, with a fallback path to the original native flow. As a result, we shipped the new eKYC flow in Flutter behind the remote config flag and gradually increased the rollout from 0% to 10%, then 50%, and finally 100% over two releases. We got zero fallback cases. We also created a single source of truth across both platforms while still keeping the native NFC and liveness SDKs. This bridge pattern is now reused for other native integrations. It also streamlined the onboarding experience for new mobile engineers. Overall, the project had a positive impact on team velocity.
+
 
 ## 🚫 Mistakes to avoid (theo Lesson 12)
 
