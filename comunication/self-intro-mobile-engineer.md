@@ -147,13 +147,11 @@ I'm a software engineer with over seven years of experience,
 specialising with Nodejs in BE development, ReactJS in FE developement, Swift iOS and cross-platform mobile development with React Native and Flutter.
 
 My background is in Information Security, which gave me a solid
-foundation in programming and security thinking. I've worked primarily
-with React Native, Flutter, and native iOS/Android across fintech,
-banking, and telecom.
+foundation in programming and security thinking.
 
 Most recently at Finhay, I delivered eKYC and authentication flows in
-a hybrid Native iOS + Flutter product. Before that at MSB, I worked on
-Internet Banking features in a React Native super-app.
+a hybrid Native iOS android & Flutter product. Before that at MSB, I worked on
+Internet Banking features in a React Native super-app such as transfer, payment, and account management.
 
 I'm someone who's always learning — currently taking English for IT
 Professionals alongside staying current with mobile architecture trends.
