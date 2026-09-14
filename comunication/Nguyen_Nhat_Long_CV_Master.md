@@ -323,9 +323,9 @@ In addition to technical implementation, I have experience coordinating delivery
 
 ### Dev Tools & Cloud
 - Firebase
-- Google Cloud / Cloud Storage
+- Google Cloud Platform (IAM, Service Accounts, Cloud Storage)
 - Redis
-- Pub/Sub
+- Cloud Pub/Sub (topics, push subscriptions)
 - Kafka
 - Docker
 - PM2
@@ -344,6 +344,7 @@ In addition to technical implementation, I have experience coordinating delivery
 - JWT authentication (Passport / bcrypt)
 - Social SSO (Apple / Google / Facebook)
 - Server-side IAP verification (Apple App Store Server API, Google Play Developer API)
+- Google Play Real-time Developer Notifications (RTDN) via Cloud Pub/Sub, least-privilege IAM scoping for service accounts
 - Store refund reconciliation
 - FCM push (Firebase Admin) + campaign delivery
 - OneSignal
