@@ -196,7 +196,7 @@ li::marker {
 
 ## Professional Summary
 
-I am a Software Engineer with over 7 years of experience delivering production-grade mobile products across banking, fintech, telecom, healthcare, logistics, education, media, and enterprise domains. I specialize in end-to-end mobile delivery, from architecture design and implementation to release management and long-term product maintenance.
+I am a Software Engineer with over 7 years of experience delivering production-grade mobile products across banking, fintech, telecom, IoT/connected devices, healthcare, logistics, education, media, and enterprise domains. I specialize in end-to-end mobile delivery, from architecture design and implementation to release management and long-term product maintenance.
 
 My core technical profile is balanced across major mobile stacks: 7 years of React Native, 4 years of Flutter, and 4 years of native iOS/Android development. In React Native, I focus on scalable architecture, API integration, authentication, state management, native bridge/module integration, and performance optimization. In Flutter, I have delivered robust applications using BLoC, Cubit, Riverpod, Provider, MobX, and Clean Architecture for maintainable and testable codebases.
 
@@ -215,6 +215,10 @@ In addition to technical implementation, I have experience coordinating delivery
 - Proven experience delivering secure fintech onboarding and identity verification journeys (OCR, NFC, liveness)
 - Strong architecture ownership with MVVM + Clean Architecture and reactive mobile patterns
 - Practical expertise in hybrid Native + Flutter integration for modular feature delivery
+- Production experience with IoT / connected-device apps: BLE GATT pairing, ESP-IDF BLE Wi-Fi provisioning, mDNS discovery, and local device REST control
+- Strong grasp of on-device network security: mTLS client certificates, certificate pinning, and challenge-response device authentication
+- Experience designing resumable, checkpointed installation journeys and firmware OTA pipelines for consumer hardware
+- Built hardware-free test environments (in-app demo emulator and Raspberry Pi device emulator) to unblock QA and development
 - Experienced in cross-platform migration planning (Native iOS/Android to Flutter UI) with phased rollout strategy
 - Strong capability in Flutter-Native bridge design (MethodChannel, callback round-trip, and lifecycle-safe navigation)
 - Hands-on backend ownership with Node.js and NestJS — queue-based async pipelines (BullMQ), transactional outbox delivery, Prisma/PostgreSQL data modeling, and API hardening
@@ -297,6 +301,18 @@ In addition to technical implementation, I have experience coordinating delivery
 - BiometricPrompt
 - Protobuf / gRPC
 
+### IoT & Connectivity
+- BLE GATT (scan / connect / characteristic read-write)
+- ESP-IDF BLE provisioning (custom React Native native module)
+- mDNS / Zeroconf service discovery
+- Wi-Fi join (NEHotspotConfiguration / Android Wi-Fi APIs)
+- Local device REST control API
+- Mesh gateway + satellite pairing
+- Firmware OTA update pipeline
+- Device emulator (Raspberry Pi + in-app demo mode)
+- mTLS client certificates
+- SHA-256 challenge-response device authentication
+
 ### Backend & Data
 - Node.js
 - NestJS 11 (modular architecture)
@@ -337,6 +353,8 @@ In addition to technical implementation, I have experience coordinating delivery
 - DeployGate
 - Sentry
 - Jest / supertest
+- Appium + Cucumber (Java) / Selenium Grid
+- XCUITest-friendly accessibility instrumentation
 
 ### API & Integration
 - REST API
@@ -383,6 +401,18 @@ In addition to technical implementation, I have experience coordinating delivery
 ---
 
 ## Professional Experience
+
+### NetComm Wireless
+**Mobile Developer (React Native / iOS / Android)**  
+**06/2026 - Present**
+
+- Working on Aurora, a production React Native companion app for NetComm networking hardware (fixed-wireless outdoor CPE, mesh gateways with satellites, Wi-Fi extender / smart-plug devices) shipped to carrier and retail channels
+- Delivering features across five device product lines, each with its own installation flow and transport: BLE GATT, ESP-IDF BLE provisioning, local REST over Wi-Fi with mTLS and certificate pinning, and mDNS/Zeroconf discovery
+- Owning the Rex (WiFiHero) product line end to end, from BLE pairing and Wi-Fi provisioning to device password management, firmware OTA, diagnostics, and dashboard
+- Building device-management features for the Nest/Osprey gateway lines, including LAN/DHCP, Wi-Fi and Guest Wi-Fi, Internet Backup failover, parental control, VoIP, and network topology
+- Introducing an automated AI-assisted merge-request review job on GitLab CI, a Raspberry Pi hardware-emulator test environment, and developer onboarding documentation for the team
+- Improving Appium/XCUITest automation hooks and accessibility across shared UI components
+- Working in a distributed Australia-Vietnam team on a Jira + GitLab merge-request workflow, coordinating with firmware, QA automation, product, and design
 
 ### Finhay Vietnam JSC
 **iOS / Mobile Developer**  
@@ -440,6 +470,58 @@ In addition to technical implementation, I have experience coordinating delivery
 ---
 
 ## Selected Project Experience
+
+### Aurora - Multi-Product Device Companion App (NetComm) <span class="tag tag-hybrid">RN + Native BLE / Wi-Fi</span>
+**Mobile Developer (React Native / iOS / Android)**  
+**06/2026 - Present**
+
+Production iOS + Android companion app that guides end users through installing, provisioning, and managing NetComm networking hardware. The app supports **five device product lines**, each with its own setup journey and communication transport, and is distributed through carrier and retail channels.
+
+**Product lines and transports**
+- `Bunning` - outdoor fixed-wireless CPE over **BLE GATT** with SHA-256 challenge/response authentication
+- `Leopard` / `Nest` / `Osprey` - AurusGATE gateways (NF70 / NF71) over **Wi-Fi + local REST** with **mTLS client certificates and certificate pinning**, plus satellite mesh pairing (NS70 / NS71) and VoIP provisioning
+- `Rex` (WiFiHero NR01) - **ESP-IDF BLE provisioning**, **mDNS/Zeroconf discovery**, and pinned REST control channel
+
+**Key responsibilities**
+- Owned the Rex (WiFiHero) product line end to end: BLE scan and connect with animated LED-state guidance, ESP BLE Wi-Fi provisioning, device password generation/live validation/factory-reset re-authentication, firmware update, ping monitoring, scheduled power cycle, diagnostic log export, and dashboard
+- Built **resumable setup with checkpointing** so an interrupted installation returns the user to the exact step (BLE connected / Wi-Fi provisioned entry points) instead of restarting, delivered for both the Rex flow and the NF71 Nest flow
+- Implemented the **firmware update pipeline** across two deliberately separate transports - a public-CA update server for download and a pinned, authenticated device channel for upload and apply - with download deduplication, reboot polling, and phased progress reporting
+- Hardened **mDNS device discovery** against stale IP addresses and multi-device networks by verifying device identity (BLE serial / TXT records) before provisioning, preventing cross-device misconfiguration
+- Delivered Nest/Osprey gateway management features: LAN/DHCP settings with subnet validation and apply-polling, Wi-Fi and Guest Wi-Fi settings, Share Wi-Fi Access, Internet Backup priority and failover, device map/topology, parental control, firmware upgrade, scheduled reboot, and date/time
+- Built **multi-device saved-device sync and switching** with safe BLE teardown, timeout guards, and connect/remove flows to eliminate UI hangs when swapping between saved devices
+- Scaffolded the **Osprey (fifth) product flow** and extracted a dedicated API service from the shared gateway service layer to keep flow boundaries clean
+- Set up an **automated AI-assisted merge-request review** job on GitLab CI (containerised runner, GitLab API integration, previous-review reconciliation, cross-flow regression tracing, quota and retry handling)
+- Authored the **developer onboarding guide, demo-mode guide, screen guide, and Raspberry Pi emulator documentation**, and built a Pi-based emulator workflow (REST + BLE GATT servers) so QA can run full installation journeys without real hardware
+- Improved **Appium / XCUITest automation and accessibility** across shared components - individually addressable list rows, switch roles and states, dropdown backdrop handling, and scroll-view structure
+- Handled platform compliance and build health: Android **API 36 (Android 16)** targeting for Play Store compliance, Xcode 26 build fixes, and in-app update prompting driven by Firebase Remote Config
+
+**Tech stack**
+- React Native 0.80 / React 19
+- JavaScript / TypeScript
+- Redux Toolkit (11 feature slices)
+- React Navigation v7 (stack / drawer / bottom tabs, ~90 routes)
+- Swift / Objective-C
+- Kotlin / Java
+- BLE GATT (SHA-256 challenge/response pairing)
+- ESP-IDF BLE provisioning (custom `react-native-esp-provisioning` native module)
+- mDNS / Zeroconf service discovery
+- Wi-Fi join (NEHotspotConfiguration on iOS, Android Wi-Fi APIs)
+- mTLS client certificates + certificate pinning
+- Local device REST API
+- Realm v20 (demo-mode device emulator)
+- Firebase Analytics / Crashlytics / Remote Config
+- react-native-vision-camera (QR scan)
+- react-native-reanimated
+- i18n-js (EN / ES)
+- Jest
+- Appium + Cucumber (Java) + Selenium Grid
+- Fastlane / TestFlight
+- GitLab CI/CD (Docker + macOS runners)
+- Docker
+- Jira
+- Raspberry Pi device emulator (Python)
+
+---
 
 ### Musaic – AI Image-to-Music Platform *(Personal Product, live on App Store / Google Play)* <span class="tag tag-hybrid">Flutter + NestJS + Vue</span>
 **Solo Fullstack Owner (Flutter / NestJS / Vue SSR)**  

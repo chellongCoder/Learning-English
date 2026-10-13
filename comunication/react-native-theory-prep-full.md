@@ -1239,3 +1239,119 @@ Hash Map patterns:
   - KHÔNG dùng AI
   - Cần viết tay hoặc trong IDE không có AI assist
 ```
+
+---
+
+# 🧵 Nhóm H — Thread Model & Event Flow (New Architecture deep-dive)
+
+## Q34. Trace toàn bộ flow từ user tap → Modal hiển thị trong New Architecture
+
+> **Context thực tế:** Trong `SettingLan.js`, user tap `TouchableOpacity` → `setWarningPopup(true)` → `AlertImagePopup` với `modalVisible={true}` render ra. Interviewer hay hỏi: *"Walk me through what happens under the hood, from the tap to the modal appearing on screen."*
+
+---
+
+### 📊 Diagram — Full thread flow
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                        USER TAPS SCREEN                                       │
+│                        Hardware interrupt → OS                                │
+└────────────────────────────────┬─────────────────────────────────────────────┘
+                                 │
+                         🧵 UI THREAD (native)
+                                 │
+            ┌────────────────────▼──────────────────────┐
+            │  iOS: UIGestureRecognizer / UITouch        │
+            │  Android: MotionEvent / ViewGroup          │
+            └────────────────────┬──────────────────────┘
+                                 │
+              ┌──────────────────▼──────────────────────┐
+              │            OLD vs NEW dispatch            │
+              │                                           │
+              │  OLD:  JSON serialize → async queue      │
+              │        → JS thread deserialize           │
+              │                                           │
+              │  NEW:  JSI EventEmitter (C++)            │
+              │        → shared memory, no copy          │
+              └──────────────────┬──────────────────────┘
+                                 │
+                         🧵 JS THREAD (Hermes)
+                                 │
+            ┌────────────────────▼──────────────────────┐
+            │  React synthetic event handler             │
+            │  onPressLanSettings()                      │
+            │    → setWarningPopup(true)                 │
+            │    → React Scheduler: SyncLane             │
+            │    → Fiber reconciliation (diff)           │
+            └────────────────────┬──────────────────────┘
+                                 │
+              ┌──────────────────▼──────────────────────┐
+              │         FABRIC RENDERER                   │
+              │                                           │
+              │  JS Fiber tree  ──JSI──►  C++ Shadow Tree│
+              │                          Yoga layout calc │
+              │                          (can run //      │
+              │                           with JS thread) │
+              └──────────────────┬──────────────────────┘
+                                 │  atomic commit
+                         🧵 UI THREAD
+                                 │
+            ┌────────────────────▼──────────────────────┐
+            │  TurboModule: ModalHostViewManager        │
+            │  (lazy-loaded via JSI, first call only)   │
+            │                                           │
+            │  iOS:  UIViewController.present()         │
+            │  Android: Dialog / WindowManager.addView  │
+            └───────────────────────────────────────────┘
+                                 │
+                        🖥 Modal hiển thị
+```
+
+---
+
+### 💬 Sample answer
+
+> **"Sure, let me walk you through the full flow."** **[S7]**
+>
+> **Step 1 — Tap detection on UI thread:**
+> *"When the user taps the screen, that's detected entirely on the **native UI thread** — on iOS it's a `UIGestureRecognizer`, on Android it's a `MotionEvent` passed up through the `ViewGroup` hierarchy."*
+>
+> **Step 2 — Dispatch to JS (JSI vs old Bridge):**
+> *"In the **old architecture**, that touch event would be **JSON-serialized**, put into an **async message queue**, and deserialized on the JS side — that added latency. **One key improvement in the New Architecture** **[S39]** is **JSI** — the JavaScript Interface. The event is dispatched via a C++ layer that JS can access **synchronously through shared memory** — no serialization, no copy."*
+>
+> **Step 3 — JS thread + React Scheduler:**
+> *"On the JS side, Hermes executes the event handler — in this case `setWarningPopup(true)`. React Scheduler queues a re-render on the **SyncLane**, meaning it runs synchronously within the current frame. Fiber then does a **reconciliation diff** — figuring out that `AlertImagePopup` needs to flip from hidden to visible."*
+>
+> **Step 4 — Fabric Shadow Tree:**
+> *"**Fabric**, the new renderer, takes that Fiber tree and projects it into a **C++ Shadow Tree** via JSI. Layout is calculated by **Yoga** — that's the cross-platform layout engine — and **this can run concurrently with the JS thread**, which is a big win for complex layouts. Then the whole frame is **atomically committed** to the UI thread — no partial renders."*
+>
+> **Step 5 — TurboModule for the Modal:**
+> *"The `Modal` component ultimately calls into a native module — `ModalHostViewManager`. With **TurboModules**, that module is **lazy-loaded** the first time it's called, via JSI, with full type safety generated by Codegen. On iOS, it calls `UIViewController.present()`; on Android it adds a `Dialog` to the `WindowManager`. The modal appears."*
+>
+> **Wrap-up:**
+> *"So just to summarize **[S68]** — the whole pipeline is: UI thread detects tap → JSI dispatches to JS → Fiber reconciles → Fabric builds C++ Shadow Tree → atomic commit to UI thread → TurboModule presents the native Modal. Compared to the old bridge, the New Architecture eliminates serialization and makes most of this **synchronous or concurrent**, which means **significantly lower latency** for interactions like this."*
+
+---
+
+### ⚠️ Bẫy thường gặp
+
+| Bẫy | Đúng |
+|-----|------|
+| *"JSI replaces the bridge"* | JSI thay cách *call* qua bridge, kiến trúc tổng thể vẫn có JS thread + UI thread |
+| *"Fabric runs on JS thread"* | Fabric Shadow Tree được build từ JS side nhưng Yoga layout chạy ở C++ layer, có thể song song với JS |
+| *"TurboModules luôn sync"* | TurboModules hỗ trợ cả sync và async — chỉ sync khi module explicitly expose synchronous methods |
+| *"setWarningPopup(true) render ngay"* | React Scheduler quyết định lane; với `startTransition` thì render có thể bị defer |
+
+---
+
+### 🔑 Key vocabulary cho câu này
+
+| Phrase | Dùng khi |
+|--------|----------|
+| *"detected on the UI thread"* | nói về touch/gesture |
+| *"serialized, put into an async queue"* | mô tả old bridge |
+| *"shared memory, no copy"* | mô tả JSI |
+| *"reconciliation diff"* | React Fiber phase |
+| *"atomically committed"* | Fabric commit step |
+| *"lazy-loaded the first time"* | TurboModules |
+| *"significantly lower latency"* | wrap-up New Arch benefit |
