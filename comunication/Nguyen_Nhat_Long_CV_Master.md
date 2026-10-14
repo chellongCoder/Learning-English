@@ -232,171 +232,41 @@ In addition to technical implementation, I have experience coordinating delivery
 
 ## Technical Skills
 
-### Mobile & Cross-Platform
-- React Native
-- Expo
-- Flutter / Dart 3
-- flutter_bloc / Cubit
-- get_it
-- dartz (Either / Failure)
-- Feature-based Clean Architecture
-- Dio + Retrofit + Freezed (codegen)
-- go_router (guards / replacement flow)
-- just_audio / audio_service (background playback)
-- FFmpeg (vendored native fork)
-- in_app_purchase (Apple / Play Billing 8)
-- google_mobile_ads (rewarded)
-- flutter_secure_storage
-- Native module integration
-- Micro front-end / Super app integration
-- Flutter MethodChannel / Native bridge
-- mobile_scanner
+### Architecture & Design Patterns
+- Clean Architecture (domain / data / presentation, dependency rule)
+- Feature-based modularization
+- MVVM, MVI (BLoC), MVP, Coordinator / Router navigation
+- Repository pattern, DI (get_it, Koin, Resolver)
+- Unidirectional data flow, reactive streams (Rx, Flow, Combine)
+- Either / Result error modeling
+- Micro front-end / super-app (Module Federation + Re.Pack)
+- Hybrid architecture: cross-platform UI + native SDK modules
 
-### State Management
-- Redux
-- Redux Toolkit
-- Redux Saga
-- Redux Thunk
-- MobX
-- Context API
-- Zustand
-- Recoil
-- Provider
-- BLoC
-- Cubit
-- Riverpod
+### Native Interop & Platform Integration
+- Bridge contract design: MethodChannel / EventChannel, NativeModules, RCTEventEmitter, Expo Modules
+- Cross-platform error-code mapping, lifecycle-safe callbacks, replacement navigation
+- Native modules for NFC, liveness, FIDO transaction signing, Screen Time, FFmpeg video editing
+- BLE GATT, ESP-IDF provisioning, mDNS discovery, firmware OTA
 
-### iOS
-- Swift
-- SwiftUI
-- UIKit
-- RxSwift
-- RxCocoa
-- SnapKit
-- Alamofire
-- URLSession
-- Certificate pinning (Alamofire ServerTrustManager)
-- Auto Layout
-- Objective-C
-- CoreNFC
-- LocalAuthentication
-- Keychain Services
-- KeychainSwift
-- CocoaPods
-- Swift Package Manager
+### Security & Reliability
+- Keychain / Keystore, Secure Enclave, biometric auth (LocalAuthentication, BiometricPrompt)
+- Certificate pinning, mTLS, challenge-response device auth
+- Proactive token refresh with single-flight guard
+- Idempotency, double-submit protection, transactional outbox
+- Feature-flag rollout with rollback path (Remote Config)
 
-### Android
-- Kotlin
-- Java
-- Coroutines
-- RxJava2 / RxAndroid
-- Koin
-- Retrofit2 + OkHttp
-- Room
-- ViewBinding / DataBinding
-- XML UI
-- ExoPlayer
-- ML Kit (Barcode / Face Detection)
-- CameraX
-- BiometricPrompt
-- Protobuf / gRPC
+### Backend & System Design
+- NestJS modular architecture: guards, interceptors, exception filters
+- Async job pipelines (BullMQ + Redis) with retry and terminal-failure handling
+- Atomic ledger operations (Prisma `$transaction`), idempotent refunds
+- Server-side IAP verification and refund reconciliation
+- PostgreSQL / MongoDB data modeling
 
-### IoT & Connectivity
-- BLE GATT (scan / connect / characteristic read-write)
-- ESP-IDF BLE provisioning (custom React Native native module)
-- mDNS / Zeroconf service discovery
-- Wi-Fi join (NEHotspotConfiguration / Android Wi-Fi APIs)
-- Local device REST control API
-- Mesh gateway + satellite pairing
-- Firmware OTA update pipeline
-- Device emulator (Raspberry Pi + in-app demo mode)
-- mTLS client certificates
-- SHA-256 challenge-response device authentication
-
-### Backend & Data
-- Node.js
-- NestJS 11 (modular architecture)
-- Express
-- Prisma 7 / TypeORM
-- PostgreSQL / MySQL / SQLite
-- MongoDB / Mongoose
-- BullMQ + Redis (queue / worker)
-- Transactional Outbox pattern
-- Prisma `$transaction` (atomic ledger ops)
-- Guards / Interceptors / Exception filters
-- class-validator + class-transformer
-- Swagger / OpenAPI
-- nestjs-i18n (multi-locale)
-- Terminus health checks
-- Jest + supertest
-
-### Web Frontend *(secondary)*
-- Vue 3 + TypeScript
-- Pinia
-- Vite 7 SSR (entry-server + Express 5)
-- Vue Router
-- ReactJS + Vite
-
-### Dev Tools & Cloud
-- Firebase
-- Google Cloud Platform (IAM, Service Accounts, Cloud Storage)
-- Redis
-- Cloud Pub/Sub (topics, push subscriptions)
-- Kafka
-- Docker
-- PM2
-- Fastlane
-- TestFlight
-- GitLab CI/CD
-- Jenkins
-- Firebase App Distribution
-- DeployGate
-- Sentry
-- Jest / supertest
-- Appium + Cucumber (Java) / Selenium Grid
-- XCUITest-friendly accessibility instrumentation
-
-### API & Integration
-- REST API
-- SOAP API
-- JWT authentication (Passport / bcrypt)
-- Social SSO (Apple / Google / Facebook)
-- Server-side IAP verification (Apple App Store Server API, Google Play Developer API)
-- Google Play Real-time Developer Notifications (RTDN) via Cloud Pub/Sub, least-privilege IAM scoping for service accounts
-- Store refund reconciliation
-- FCM push (Firebase Admin) + campaign delivery
-- OneSignal
-- Sendbird
-- Branch deep linking
-- Third-party SDK integration (NFC card reader, liveness verification)
-- Remote Config based feature rollout
-- Native-Flutter bi-directional bridge (MethodChannel/EventChannel)
-
-### AI Integration
-- ElevenLabs Music API
-- OpenAI API
-- Google Gemini (@google/genai)
-- Prompt engineering for generation pipelines
-- Async AI job orchestration (BullMQ workers, retry / terminal-failure handling)
-
-### Architecture & Security
-- MVVM
-- Clean Architecture
-- Reactive programming
-- MVP + Command Pattern
-- Biometric authentication
-- Certificate pinning
-- Hybrid architecture (Flutter UI + Native SDK)
-- A/B rollout and fallback strategy
-
-### Blockchain
-- Solidity
-- Hardhat
-- Ether / EVM interaction
-- Hyperledger Indy
-- Hyperledger Aries
-- Hyperledger Fabric
-- IPFS
+### Core Stack
+- React Native (TypeScript), Flutter (Dart 3), Swift, Kotlin
+- State: Redux Toolkit, Zustand, MobX, BLoC / Cubit, Riverpod
+- Node.js / NestJS, Prisma, PostgreSQL
+- CI/CD: Fastlane, GitLab CI, Jenkins, Firebase App Distribution, Sentry
 
 ---
 
@@ -416,7 +286,7 @@ In addition to technical implementation, I have experience coordinating delivery
 
 ### Finhay Vietnam JSC
 **iOS / Mobile Developer**  
-**11/2025 - 05/2026**
+**02/2025 - 05/2026**
 
 - Worked on a hybrid fintech mobile product integrating Native iOS and Flutter modules
 - Delivered secure onboarding and eKYC-related flows, including card capture guidance, NFC reading, and liveness handoff
@@ -429,7 +299,7 @@ In addition to technical implementation, I have experience coordinating delivery
 
 ### Vietnam Maritime Bank (MSB)
 **Software Developer, FE5**  
-**02/2025 - 11/2025**
+**02/2025 - 02/2026**
 
 - Working as a React Native developer in the banking domain
 - Contributing to Internet Banking features in a micro front-end / super app environment
@@ -525,7 +395,8 @@ Production iOS + Android companion app that guides end users through installing,
 
 ### Musaic – AI Image-to-Music Platform *(Personal Product, live on App Store / Google Play)* <span class="tag tag-hybrid">Flutter + NestJS + Vue</span>
 **Solo Fullstack Owner (Flutter / NestJS / Vue SSR)**  
-**12/2025 - Present**
+**12/2025 - Present**  
+**Store:** [App Store](https://apps.apple.com/vn/app/lyraic-music-photo-to-song/id6792515277) · [Google Play](https://play.google.com/store/apps/details?id=com.algorz.musaic.app) (published as *Lyraic Music: Photo to Song*) · **1K+ downloads** on Google Play  
 
 Production AI product that turns a user photo into an original music track. I own all three tiers end-to-end: the Flutter mobile app (released, v1.2.2), the NestJS API with async AI generation pipeline and credit monetization, and a Vue 3 SSR admin CMS for content and campaign operations.
 
@@ -585,7 +456,8 @@ Production AI product that turns a user photo into an original music track. I ow
 
 ### Finhay - Hybrid Native (iOS/Android) + Flutter Fintech App <span class="tag tag-hybrid">Flutter + Native</span>
 **iOS / Mobile Developer**  
-**1/2026 - 05/2026**
+**1/2026 - 05/2026**  
+**Store:** [App Store](https://apps.apple.com/vn/app/finhay-daily-financial-app/id1336942463) · [Google Play](https://play.google.com/store/apps/details?id=vn.finhay.finhay) · **1M+ downloads** on Google Play, 21K+ App Store ratings  
 
 Contributed to a hybrid fintech product where Native iOS and Flutter modules were integrated to deliver secure onboarding, authentication, and identity verification flows for financial users.
 
@@ -640,7 +512,8 @@ Contributed to a hybrid fintech product where Native iOS and Flutter modules wer
 
 ### Internet Banking - Individual Internet Banking <span class="tag tag-rn">React Native</span>
 **Mobile Developer**  
-**06/2025 - 1/1026**
+**06/2025 - 1/1026**  
+**Store:** [App Store](https://apps.apple.com/vn/app/msb-digital-bank/id6740115468) · [Google Play](https://play.google.com/store/apps/details?id=com.msb.digibank.retail) (*MSB Digital Bank*) · **100K+ downloads** on Google Play  
 
 Contributing to a high-scale Individual Internet Banking product in a super-app ecosystem, where business domains are delivered as independent micro front-end modules and integrated at runtime.
 
@@ -664,7 +537,8 @@ Contributing to a high-scale Individual Internet Banking product in a super-app 
 
 ### ABC Education App <span class="tag tag-hybrid">RN + Native iOS</span>
 **Technical Lead**  
-**08/2024 **
+**08/2024 **  
+**Store:** [Google Play](https://play.google.com/store/apps/details?id=com.algorz.abeeci.app) (*ABeeCi*) · **1K+ downloads** on Google Play  
 
 Educational application that integrates multiple subjects into a single platform for children, with parental control and in-app purchase support.
 
@@ -705,7 +579,8 @@ Built as a cross-platform education product with a strong native layer for paren
 
 ### ViettelPay Pro <span class="tag tag-native">Native iOS</span>
 **iOS Developer**  
-**10/2024 - 02/2025**
+**10/2024 - 02/2025**  
+**Store:** [App Store](https://apps.apple.com/vn/app/viettelpay-pro/id1265352466) · [Google Play](https://play.google.com/store/apps/details?id=com.bplus.bankplusbccs) · **1M+ downloads** on Google Play, 4K+ App Store ratings  
 
 Enterprise iOS application for ViettelPay Pro channel and agent operations, supporting service payment, money transfer, recharge, transaction tracking, pending payment records, reporting, support, and operational self-service flows for sales points and business users.
 
