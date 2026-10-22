@@ -393,6 +393,70 @@ Production iOS + Android companion app that guides end users through installing,
 
 ---
 
+### Aimoji – AI Emoji & Sticker Keyboard *(Personal Project, live on App Store / Google Play)* <span class="tag tag-native">Native Android IME + iOS Keyboard Extension</span>
+**Solo Fullstack Owner (Kotlin / Compose / SwiftUI / NestJS)**  
+**08/2026 - Present**  
+**Store:** [App Store](https://apps.apple.com/vn/app/aimoji-keyboard-ai-emojis/id6814914345) · [Google Play](https://play.google.com/store/apps/details?id=com.algorz.aimoji.app)
+
+Custom keyboard that turns a face photo into cartoon stickers with AI and lets the user insert them directly from the keyboard inside any chat app. Includes a card creator for composing stickers, text, audio and video into shareable cards.
+
+**Key responsibilities**
+- Built the Android custom keyboard as an `InputMethodService` in Kotlin (QWERTY typing plus a scrollable sticker grid), sharing one process with the main app so the keyboard reads generated stickers straight from app storage without IPC
+- Built the iOS keyboard as a separate **Keyboard Extension**, sharing sticker files with the main app through an **App Group** container, keeping the group identifier consistent across both targets' entitlements and the shared config, where a mismatch fails silently instead of crashing
+- Started on Flutter, then rewrote the app natively (Kotlin + Jetpack Compose on Android, SwiftUI on iOS) to get full control over the keyboard surfaces; ported all 7 Compose screens to SwiftUI with shared design tokens
+- Built the card composer: text styling, sticker resize, audio recording and video export (`AVAssetWriter` on iOS), plus watermarking and share flows
+- Designed the NestJS backend as a thin proxy that holds the AI API keys: API-key and throttler guards, upload validation, image captioning with a vision-model fallback chain, prompt building, pluggable image providers (Stability / Picsart) and `sharp` background removal to transparent PNG
+- Integrated AdMob behind UMP consent, and shipped both stores with Fastlane (Play internal track, TestFlight)
+
+**Tech stack**
+- Kotlin
+- Jetpack Compose
+- Android InputMethodService
+- Swift / SwiftUI
+- iOS Keyboard Extension / App Groups
+- AVFoundation (AVAssetWriter)
+- Flutter (initial version)
+- NestJS
+- sharp
+- Stability AI / Picsart APIs
+- Vision-model image captioning
+- AdMob + UMP consent
+- Fastlane
+
+---
+
+### Aixercise – On-Device AI Exercise Coach *(Personal Project, live on App Store / Google Play)* <span class="tag tag-native">Kotlin Multiplatform</span>
+**Solo Mobile Owner (Kotlin Multiplatform / Compose / Swift)**  
+**07/2026 - Present**  
+**Store:** [App Store](https://apps.apple.com/vn/app/ai-exercise-home-work-out/id6810195874) · [Google Play](https://play.google.com/store/apps/details?id=com.algorz.aiexercise.app)
+
+Offline-first exercise coaching app that watches the user through the front camera, detects body pose in real time, and gives spoken corrections against a reference pose for 27 exercises across yoga, pilates, calisthenics, tai chi and stretching. All pose processing runs on-device: no video or landmark data leaves the phone.
+
+**Key responsibilities**
+- Rewrote the app from Flutter to native after diagnosing two Android issues the Flutter layer could not fix: the camera preview never rendered frames in AOT release builds, and the pose pipeline crashed inside the plugin's YUV conversion. Calling CameraX and ML Kit directly removed both failure points
+- Migrated the native Android app to **Kotlin Multiplatform**: pose geometry, session state machine, content, localization, usage tracking and networking live in `commonMain`, shared by Android and iOS
+- Built the pose pipeline: ML Kit Pose Detection (33 landmarks) → smoothing → frame-bounds and facing checks → joint-angle calculation → per-joint comparison against target angles and tolerances defined in bundled JSON content
+- Designed the session state machine (ALIGNING → HOLDING → COMPLETED) with priority-queued voice coaching, a 900 ms persistence window and per-joint cooldown so brief arm movements do not trigger false warnings
+- Integrated platform-specific pieces behind shared interfaces: CameraX / AVFoundation, Android TTS / AVSpeechSynthesizer, WorkManager reminders, Play Billing 9 / StoreKit subscriptions, AdMob
+- Shipped release tooling: Fastlane for both stores, multi-locale release notes, R8 keep rules for reflection-instantiated classes
+
+**Tech stack**
+- Kotlin Multiplatform
+- Jetpack Compose / Compose Multiplatform
+- SwiftUI
+- CameraX
+- Google ML Kit Pose Detection
+- Ktor client
+- kotlinx.serialization / coroutines / datetime
+- Navigation Compose
+- WorkManager
+- Play Billing Library 9
+- StoreKit
+- AdMob
+- Fastlane
+
+---
+
 ### Musaic – AI Image-to-Music Platform *(Personal Product, live on App Store / Google Play)* <span class="tag tag-hybrid">Flutter + NestJS + Vue</span>
 **Solo Fullstack Owner (Flutter / NestJS / Vue SSR)**  
 **12/2025 - Present**  
